@@ -314,81 +314,81 @@ describe('GET /api/artists/:id', function() {
   });
 });
 
-// describe('POST /api/artists', function() {
-//   let newArtist;
+describe('POST /api/artists', function() {
+  let newArtist;
 
-//   beforeEach(function(done) {
-//     newArtist = {
-//       name: 'New Artist',
-//       dateOfBirth: 'February 1, 1980',
-//       biography: 'My Biography'
-//     };
+  beforeEach(function(done) {
+    newArtist = {
+      name: 'New Artist',
+      dateOfBirth: 'February 1, 1980',
+      biography: 'My Biography'
+    };
 
-//     seed.seedArtistDatabase(done);
-//   });
+    seed.seedArtistDatabase(done);
+  });
 
-  // it('should create a valid artist', function(done) {
-  //     request(app)
-  //       .post('/api/artists/')
-  //       .send({artist: newArtist})
-  //       .then(function() {
-  //         testDb.all('SELECT * FROM Artist', function(error, result) {
-  //           if (error) {
-  //             throw new Error(error);
-  //           }
-  //           const artist = result.find(artist => artist.name === newArtist.name);
-  //           expect(artist).to.exist;
-  //           expect(artist.id).to.exist;
-  //           expect(artist.date_of_birth).to.equal(newArtist.dateOfBirth);
-  //           expect(artist.biography).to.equal(newArtist.biography);
-  //           done();
-  //         });
-  //       }).catch(done);
-  // });
+  it('should create a valid artist', function(done) {
+      request(app)
+        .post('/api/artists/')
+        .send({artist: newArtist})
+        .then(function() {
+          testDb.all('SELECT * FROM Artist', function(error, result) {
+            if (error) {
+              throw new Error(error);
+            }
+            const artist = result.find(artist => artist.name === newArtist.name);
+            expect(artist).to.exist;
+            expect(artist.id).to.exist;
+            expect(artist.date_of_birth).to.equal(newArtist.dateOfBirth);
+            expect(artist.biography).to.equal(newArtist.biography);
+            done();
+          });
+        }).catch(done);
+  });
 
-  // it('should return a 201 status code after artist creation', function() {
-  //   return request(app)
-  //       .post('/api/artists/')
-  //       .send({artist: newArtist})
-  //       .expect(201);
-  // });
+  it('should return a 201 status code after artist creation', function() {
+    return request(app)
+        .post('/api/artists/')
+        .send({artist: newArtist})
+        .expect(201);
+  });
 
-  // it('should return the newly-created artist after artist creation', function() {
-  //   return request(app)
-  //       .post('/api/artists/')
-  //       .send({artist: newArtist})
-  //       .then(function(response) {
-  //         const artist = response.body.artist;
-  //         expect(artist).to.exist;
-  //         expect(artist.id).to.exist;
-  //         expect(artist.name).to.equal(newArtist.name);
-  //         expect(artist.date_of_birth).to.equal(newArtist.dateOfBirth);
-  //         expect(artist.biography).to.equal(newArtist.biography);
-  //       });
-  // });
+  it('should return the newly-created artist after artist creation', function() {
+    return request(app)
+        .post('/api/artists/')
+        .send({artist: newArtist})
+        .then(function(response) {
+          const artist = response.body.artist;
+          expect(artist).to.exist;
+          expect(artist.id).to.exist;
+          expect(artist.name).to.equal(newArtist.name);
+          expect(artist.date_of_birth).to.equal(newArtist.dateOfBirth);
+          expect(artist.biography).to.equal(newArtist.biography);
+        });
+  });
 
-  // it('should set new artists as currently-employed by default', function() {
-  //   return request(app)
-  //       .post('/api/artists/')
-  //       .send({artist: newArtist})
-  //       .then(function(response) {
-  //         const artist = response.body.artist;
-  //         expect(artist.is_currently_employed).to.equal(1);
-  //       });
-  // });
+  it('should set new artists as currently-employed by default', function() {
+    return request(app)
+        .post('/api/artists/')
+        .send({artist: newArtist})
+        .then(function(response) {
+          const artist = response.body.artist;
+          expect(artist.is_currently_employed).to.equal(1);
+        });
+  });
 
-  // it('should return a 400 status code for invalid artists', function() {
-  //   newArtist = {
-  //     dateOfBirth: 'February 1, 1980',
-  //     biography: 'My Biography'
-  //   };
+  it('should return a 400 status code for invalid artists', function() {
+    newArtist = {
+      dateOfBirth: 'February 1, 1980',
+      biography: 'My Biography'
+    };
 
-  //   return request(app)
-  //       .post('/api/artists/')
-  //       .send({artist: newArtist})
-  //       .expect(400);
-  // });
-//});
+    return request(app)
+        .post('/api/artists/')
+        .send({artist: newArtist})
+        .expect(400);
+  });
+});
 
 // describe('PUT /api/artists/:id', function() {
 //   let updatedArtist;

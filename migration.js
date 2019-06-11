@@ -6,7 +6,7 @@ db.run(`CREATE TABLE IF NOT EXISTS "Artist" (
 	"name"	TEXT NOT NULL,
 	"date_of_birth"	TEXT NOT NULL,
 	"biography"	INTEGER NOT NULL,
-	"is_currently_employed"	INTEGER NOT NULL DEFAULT 1,
+	"is_currently_employed"	INTEGER DEFAULT 1,
 	PRIMARY KEY("id")
 );`);
 

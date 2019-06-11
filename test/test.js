@@ -283,36 +283,36 @@ describe('GET /api/artists', function() {
   });
 });
 
-// describe('GET /api/artists/:id', function() {
-//   before(function(done) {
-//     seed.seedArtistDatabase(done);
-//   });
+describe('GET /api/artists/:id', function() {
+  before(function(done) {
+    seed.seedArtistDatabase(done);
+  });
 
-//   it('should return the artist with the given ID', function() {
-//     return request(app)
-//         .get('/api/artists/2')
-//         .then(function(response) {
-//           const artist = response.body.artist;
-//           expect(artist.id).to.equal(2);
-//           expect(artist.name).to.equal('Artist 2');
-//           expect(artist.date_of_birth).to.equal('January 2 1980');
-//           expect(artist.biography).to.equal('I also work here');
-//           expect(artist.is_currently_employed).to.equal(1);
-//         });
-//   });
+  it('should return the artist with the given ID', function() {
+    return request(app)
+        .get('/api/artists/2')
+        .then(function(response) {
+          const artist = response.body.artist;
+          expect(artist.id).to.equal(2);
+          expect(artist.name).to.equal('Artist 2');
+          expect(artist.date_of_birth).to.equal('January 2 1980');
+          expect(artist.biography).to.equal('I also work here');
+          expect(artist.is_currently_employed).to.equal(1);
+        });
+  });
 
-//   it('should return a 200 status code for valid IDs', function() {
-//     return request(app)
-//         .get('/api/artists/2')
-//         .expect(200);
-//   });
+  it('should return a 200 status code for valid IDs', function() {
+    return request(app)
+        .get('/api/artists/2')
+        .expect(200);
+  });
 
-//   it('should return a 404 status code for invalid IDs', function() {
-//     return request(app)
-//         .get('/api/artists/999')
-//         .expect(404);
-//   });
-// });
+  it('should return a 404 status code for invalid IDs', function() {
+    return request(app)
+        .get('/api/artists/999')
+        .expect(404);
+  });
+});
 
 // describe('POST /api/artists', function() {
 //   let newArtist;

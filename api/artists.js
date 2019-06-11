@@ -13,18 +13,6 @@ artistsRouter.get('/', (req, res, next) => {
     });
 });
 
-artistsRouter.get('/:id', (req, res, next) => {
-    const id = req.params.id;
-    db.get(`SELECT * FROM Artist WHERE id = ${id}`, (err, row) => {
-        if (err) {
-            next(err);
-        } else if (!row) {
-            return res.status(404).send();
-        }
-        return res.status(200).json({artist: row});
-    })
-});
-
 artistsRouter.post('/', (req, res, next) => {
     const {name, dateOfBirth, biography, isCurrentlyEmployed} = req.body.artist;
 
@@ -50,18 +38,37 @@ artistsRouter.post('/', (req, res, next) => {
     )
 });
 
-artistsRouter.put('/:id', (req, res, next) => {
+artistsRouter.param('artistId', (req, res, next, artistId) => {
+    const sql = 'SELECT * FROM Artist WHERE Artist.id = $artistId';
+    const values = {$artistId: artistId};
+    db.get(sql, values, (error, artist) => {
+        if (error) {
+            next(error);
+        } else if (artist) {
+            req.artist = artist;
+            next();
+        } else {
+            return res.sendStatus(404);
+        }
+    });
+});
+
+artistsRouter.get('/:artistId', (req, res, next) => {
+        return res.status(200).json({artist: req.artist});
+});
+
+artistsRouter.put('/:artistId', (req, res, next) => {
     const {name, dateOfBirth, biography, isCurrentlyEmployed} = req.body.artist;
-    const id = req.params.id;
+    const id = req.params.artistId;
     
     if (!name || !dateOfBirth || !biography) {
         return res.status(400).send();
     }
 
     db.get(`SELECT * FROM Artist WHERE id = ${id}`, (err, row) => {
-        if (!row) {
-            return res.status(404).send();
-        }
+        // if (!row) {
+        //     return res.status(404).send();
+        // }
         db.run(`UPDATE Artist SET name = $name, date_of_birth = $dateOfBirth, biography = $biography, is_currently_employed = $isCurrentlyEmployed WHERE id = $id`, {
             $name: name,
             $dateOfBirth: dateOfBirth,
@@ -80,18 +87,14 @@ artistsRouter.put('/:id', (req, res, next) => {
     });
 });
 
-artistsRouter.delete('/:id', (req, res, next) => {
-    const id = req.params.id;
-    db.get(`SELECT * FROM Artist WHERE id = ${id}`, (err, row) => {
-        if (!row) {
-            return res.status(404).send();
-        }
-        db.run(`UPDATE Artist SET is_currently_employed = 0 WHERE id = ${id}`, err => {
-            db.get(`SELECT * FROM Artist WHERE id=${id}`, (err, row1) => {
-                return res.status(200).send({artist: row1});
-            });
-        });  
-    });
+artistsRouter.delete('/:artistId', (req, res, next) => {
+    const id = req.params.artistId;
+
+    db.run(`UPDATE Artist SET is_currently_employed = 0 WHERE id = ${id}`, err => {
+        db.get(`SELECT * FROM Artist WHERE id=${id}`, (err, row1) => {
+            return res.status(200).send({artist: row1});
+        });
+    });  
 });
 
 module.exports = artistsRouter;

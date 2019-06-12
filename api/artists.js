@@ -66,9 +66,6 @@ artistsRouter.put('/:artistId', (req, res, next) => {
     }
 
     db.get(`SELECT * FROM Artist WHERE id = ${id}`, (err, row) => {
-        // if (!row) {
-        //     return res.status(404).send();
-        // }
         db.run(`UPDATE Artist SET name = $name, date_of_birth = $dateOfBirth, biography = $biography, is_currently_employed = $isCurrentlyEmployed WHERE id = $id`, {
             $name: name,
             $dateOfBirth: dateOfBirth,

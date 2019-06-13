@@ -70,8 +70,23 @@ seriesRouter.put('/:seriesId', (req, res, next) => {
         db.get(`SELECT * FROM Series WHERE id=${id}`, (error, row) => {
             if (error) {next(error)};
             return res.status(200).json({series: row});
-        })
+        });
     });
+});
+
+seriesRouter.delete('/:seriesId', (req, res, next) => {
+    id = req.params.seriesId;
+    db.get(`SELECT * FROM Issue WHERE series_id = ${id}`, (err, row) => {
+        if (err) {next(err)};
+        if (row) {
+            return res.sendStatus(400);
+        } else {
+            db.run(`DELETE FROM Series WHERE id = ${id}`, (err) => {
+                return res.sendStatus(204);
+            });
+        }
+    });
+    
 });
 
 
